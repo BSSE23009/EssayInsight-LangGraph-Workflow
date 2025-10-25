@@ -33,7 +33,7 @@ class EssayInsightState(TypedDict):
 def input_essay(state: EssayInsightState) -> EssayInsightState:
     return {'essay_text': state['essay_text']}
 
-def languague_check(state: EssayInsightState) -> EssayInsightState:
+def language_check(state: EssayInsightState) -> EssayInsightState:
     response = structured_model.invoke(f"Evaluate language quality and give a score: {state['essay_text']}")
     return {'language_feedback': response.feedback, 'scores': [response.score]}
 
@@ -68,7 +68,7 @@ def condition(state: EssayInsightState) -> str:
 # Build graph
 graph = StateGraph(EssayInsightState)
 graph.add_node("Input Essay", input_essay)
-graph.add_node("Language Check", languague_check)
+graph.add_node("Language Check", language_check)
 graph.add_node("Grammar Check", grammar_check)
 graph.add_node("Structure Check", structure_check)
 graph.add_node("Overall Check", overall_check)
